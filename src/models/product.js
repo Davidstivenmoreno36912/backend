@@ -1,20 +1,15 @@
-const mysql = require('mysql');
+// product.js
+const db = require('../db'); // importa el pool de db.js
 
-// Configurar conexión a la base de datos MySQL
-const connection = mysql.createConnection({
-  host: 'localhost',     // Nombre del host, usualmente 'localhost'
-  port: 3306,            // Puerto de MySQL, 3306 por defecto
-  user: 'root',          // Usuario de MySQL
-  password: '1234',      // Contraseña de MySQL
-  database: 'tienda online' // Nombre de la base de datos, sin espacios
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.error('Error al conectar a la base de datos:', err);
-    return;
+// Ejemplo: obtener todos los productos
+async function getProducts() {
+  try {
+    const [rows] = await db.query('SELECT * FROM productos'); // ajusta el nombre de tu tabla
+    return rows;
+  } catch (err) {
+    console.error('Error al obtener productos:', err);
+    throw err;
   }
-  console.log('Conexión a la base de datos exitosa');
-});
+}
 
-module.exports = connection;
+module.exports = { getProducts };
