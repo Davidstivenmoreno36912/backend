@@ -1,5 +1,5 @@
 // product.js
-const db = require('../db'); // importa el pool de db.js
+const db = require('.../db'); // importa el pool de db.js
 
 // Ejemplo: obtener todos los productos
 async function getProducts() {
