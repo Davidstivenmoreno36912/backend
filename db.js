@@ -11,7 +11,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  ssl: { rejectUnauthorized: true } // 👈 obligatorio en Aiven
+  ssl: { rejectUnauthorized: false } // 👈 obligatorio en Aiven
 });
 
 // Probar conexión
