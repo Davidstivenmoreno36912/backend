@@ -1,3 +1,4 @@
+// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -9,9 +10,13 @@ const db = require('../db'); // pool con SSL
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Middleware CORS para permitir peticiones desde tu frontend
+app.use(cors({
+  origin: 'https://tu-usuario.github.io', // <-- reemplaza con tu URL de frontend
+}));
+
+// Middleware para parsear JSON
 app.use(bodyParser.json());
-app.use(cors());
 
 // Middleware para archivos uploads
 app.use('/uploads', (req, res, next) => {
@@ -22,7 +27,7 @@ app.use('/uploads', (req, res, next) => {
 });
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Rutas
+// Rutas de productos desde router
 app.use('/api/products', productRouter);
 
 // Endpoint para todos los productos
@@ -53,7 +58,7 @@ app.get('/', (req, res) => {
   res.send('🚀 Servidor Express funcionando correctamente');
 });
 
-// Iniciar servidor (solo una vez)
+// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en puerto ${PORT}`);
 });
