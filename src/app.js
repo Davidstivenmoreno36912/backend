@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const mime = require('mime-types');
 const productRouter = require('./routes/products');
-const db = require('../db'); // 👈 usamos el pool con SSL
+const db = require('../db'); // pool con SSL
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -53,13 +53,7 @@ app.get('/', (req, res) => {
   res.send('🚀 Servidor Express funcionando correctamente');
 });
 
-// Iniciar servidor
+// Iniciar servidor (solo una vez)
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en puerto ${PORT}`);
-});
-
-
-// Inicia el servidor
-app.listen(PORT, () => {
-    console.log(`✅ Servidor corriendo en puerto ${PORT}`);
 });
