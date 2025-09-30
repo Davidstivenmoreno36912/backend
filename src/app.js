@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware CORS para permitir peticiones desde tu frontend
 app.use(cors({
-  origin: 'https://davidstivenmoreno36912.github.io', // <-- reemplaza con tu URL de frontend
+  origin: 'https://davidstivenmoreno36912.github.io/Tienda-Online/', // <-- reemplaza con tu URL de frontend
 }));
 
 // Middleware para parsear JSON
