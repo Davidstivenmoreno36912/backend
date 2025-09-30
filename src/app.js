@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const mime = require('mime-types');
 const productRouter = require('./routes/products');
-const db = require('./db'); // 👈 usamos el pool con SSL
+const db = require('../db'); // 👈 usamos el pool con SSL
 
 const app = express();
 const PORT = process.env.PORT || 3000;
