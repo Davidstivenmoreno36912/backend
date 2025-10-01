@@ -4,21 +4,27 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const mime = require('mime-types');
-const productRouter = require('./routes/products');
+const productRouter = require('./routes/products'); // router unificado
 const db = require('../db'); // pool con SSL
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000; // Render asigna puerto automáticamente
 
-// Middleware CORS para permitir peticiones desde tu frontend
+// ===============================
+// CORS: permitir frontend GitHub Pages
+// ===============================
 app.use(cors({
-  origin: 'https://davidstivenmoreno36912.github.io/Tienda-Online/', // <-- reemplaza con tu URL de frontend
+  origin: 'https://davidstivenmoreno36912.github.io', // dominio principal
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
 }));
 
-// Middleware para parsear JSON
+// ===============================
+// Middleware
+// ===============================
 app.use(bodyParser.json());
 
-// Middleware para archivos uploads
+// Archivos estáticos (uploads)
 app.use('/uploads', (req, res, next) => {
   const filePath = path.join(__dirname, '../uploads', req.path);
   const mimeType = mime.lookup(filePath) || 'application/octet-stream';
@@ -27,38 +33,21 @@ app.use('/uploads', (req, res, next) => {
 });
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Rutas de productos desde router
+// ===============================
+// Rutas
+// ===============================
+
+// Usar router principal para productos
 app.use('/api/products', productRouter);
-
-// Endpoint para todos los productos
-app.get('/products', async (req, res) => {
-  try {
-    const [rows] = await db.query('SELECT * FROM productos');
-    res.json(rows);
-  } catch (err) {
-    console.error('❌ Error al obtener productos:', err);
-    res.status(500).json({ error: 'Error al obtener productos' });
-  }
-});
-
-// Endpoint para producto por ID
-app.get('/products/:id', async (req, res) => {
-  try {
-    const [rows] = await db.query('SELECT * FROM productos WHERE id = ?', [req.params.id]);
-    if (rows.length === 0) return res.status(404).json({ error: 'Producto no encontrado' });
-    res.json(rows[0]);
-  } catch (err) {
-    console.error('❌ Error al obtener el producto:', err);
-    res.status(500).json({ error: 'Error al obtener el producto' });
-  }
-});
 
 // Ruta de prueba
 app.get('/', (req, res) => {
   res.send('🚀 Servidor Express funcionando correctamente');
 });
 
+// ===============================
 // Iniciar servidor
+// ===============================
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en puerto ${PORT}`);
 });
